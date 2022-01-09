@@ -22,7 +22,11 @@ yarn example
 
 ## ubuntu flist for development
 
-```bash
-https://hub.grid.tf/omarabdul3ziz.3bot/omarabdul3ziz-ubuntu-20.04-devenv.flist
-```
+
+flist: https://hub.grid.tf/omarabdul3ziz.3bot/omarabdul3ziz-ubuntu-20.04-devenv.flist
+
+entrypoint: /start.sh
+
+env: SSH_KEY
+
 Dockerfile: https://github.com/threefoldtech/tf-images/pull/62
