@@ -196,6 +196,7 @@
 </div>
 
 <style lang="scss">
+  @import url("/global.css");
   div.section {
     display: flex;
     flex-direction: column;
