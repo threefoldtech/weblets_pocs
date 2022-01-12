@@ -368,6 +368,22 @@
                     <div class="flex-1 min-w-0">
                         <h1 class="text-lg font-medium leading-6 text-gray-900 sm:truncate">Pkid</h1>
                     </div>
+                    <form @submit.prevent="getRow">
+
+                        <div class="flex-1 relative z-0">
+                            <input type="text" v-model="pkidData.getKey" placeholder="Get this key's value"/>
+                            <br>
+                            <button class="float-left bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" type="submit">Get Value</button>
+                        </div>
+                    </form>
+
+                    <form @submit.prevent="addRow">
+                        <input type="text" v-model="pkidData.setKey" placeholder="Key" />
+                        <input type="text" v-model="pkidData.setValue" placeholder="Value"/>
+                        <br>
+                        <button class="float-middle bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" type="submit">Add New Key</button>
+                    </form>
+                      
                 </div>
 
                 <!-- Projects list (only on smallest breakpoint) -->
@@ -525,7 +541,8 @@
                                                 >
                                                     <div class="py-1">
                                                         <MenuItem v-slot="{ active }">
-                                                            <a @click="console.log('Edit')"
+                                                            <a
+                                                                @click="console.log('Edit')"
                                                                 href="#"
                                                                 :class="[
                                                                     active
@@ -634,149 +651,179 @@
 </template>
 
 <script lang="ts" setup>
-    import { ref, reactive } from 'vue';
-    import router from '../router/index';
-    import pkid from '@jimber/pkid';
-    import { entropyToMnemonic } from 'bip39';
-    import _sodium from 'libsodium-wrappers';
-    import {
-        Dialog,
-        DialogOverlay,
-        Menu,
-        MenuButton,
-        MenuItem,
-        MenuItems,
-        TransitionChild,
-        TransitionRoot,
-    } from '@headlessui/vue';
-    import { ClockIcon, HomeIcon, MenuAlt1Icon, ViewListIcon, XIcon, DatabaseIcon } from '@heroicons/vue/outline';
-    import {
-        ChevronRightIcon,
-        DotsVerticalIcon,
-        DuplicateIcon,
-        PencilAltIcon,
-        SearchIcon,
-        SelectorIcon,
-        TrashIcon,
-        UserAddIcon,
-    } from '@heroicons/vue/solid';
+import { ref, reactive } from 'vue';
+import router from '../router/index';
+import pkid from '@jimber/pkid';
+import { entropyToMnemonic } from 'bip39';
+import _sodium from 'libsodium-wrappers';
+import {
+    Dialog,
+    DialogOverlay,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuItems,
+    TransitionChild,
+    TransitionRoot,
+} from '@headlessui/vue';
+import { ClockIcon, HomeIcon, MenuAlt1Icon, ViewListIcon, XIcon, DatabaseIcon } from '@heroicons/vue/outline';
+import {
+    ChevronRightIcon,
+    DotsVerticalIcon,
+    DuplicateIcon,
+    PencilAltIcon,
+    SearchIcon,
+    SelectorIcon,
+    TrashIcon,
+    UserAddIcon,
+} from '@heroicons/vue/solid';
 
-    function Uint8ArrayFromBase64Url(base64Url: string) {
-        return Uint8Array.from(window.atob(base64Url.replace(/-/g, '+').replace(/_/g, '/')), v => v.charCodeAt(0));
-    }
+function Uint8ArrayFromBase64Url(base64Url: string) {
+    return Uint8Array.from(window.atob(base64Url.replace(/-/g, '+').replace(/_/g, '/')), v => v.charCodeAt(0));
+}
 
-    const logout = () => {
-        localStorage.removeItem('profile');
-        localStorage.removeItem('state');
-        localStorage.removeItem('signedEmailIdentifier');
-        localStorage.removeItem('signedPhoneIdentifier');
+const logout = () => {
+    localStorage.removeItem('profile');
+    localStorage.removeItem('state');
+    localStorage.removeItem('signedEmailIdentifier');
+    localStorage.removeItem('signedPhoneIdentifier');
 
-        router.push({ name: 'login' });
-    };
-    const navigation = [{ name: 'Pkid', href: '#', icon: DatabaseIcon, current: true }];
-    const teams = [];
+    router.push({ name: 'login' });
+};
+const navigation = [{ name: 'Pkid', href: '#', icon: DatabaseIcon, current: true }];
+const teams = [];
+let client;
+let publicKey;
+let privateKey;
 
-    // let pkidData = ref();
+const pkidData = reactive({
+    data: [],
+    setKey: "",
+    setValue: "",
+    getKey: ""
+});
 
-    const pkidData = reactive({
-        data: [],
-    });
-    const sidebarOpen = ref(false);
-
-    const profile = JSON.parse(localStorage.getItem('profile') as any).profile;
-
-    console.log(profile);
-
-    console.log('Waiting for sodium to be ready');
-
-    (async () => {
-        await _sodium.ready;
-        const sodium = _sodium;
-        console.log('Sodium is ready?');
-
-        var key = sodium.randombytes_buf(sodium.crypto_shorthash_KEYBYTES);
-        console.log('KEY');
-        console.log(key);
-
-        console.log('derivedSeed: ', Uint8ArrayFromBase64Url(profile.derivedSeed));
-        // const keyPair = entropyToMnemonic(Uint8ArrayFromBase64Url(profile.derivedSeed) as Buffer);
-
-        const keyPair = sodium.crypto_sign_seed_keypair(Uint8ArrayFromBase64Url(profile.derivedSeed));
-        console.log('done with keypair?');
-        console.log('Keypair: ', keyPair.publicKey);
-        console.log('Keypair: ', keyPair.privateKey);
-
-        const url = 'https://pkid.staging.jimber.org';
-        const publicKey = keyPair.publicKey;
-        const privateKey = keyPair.privateKey;
-
-        const client = new pkid(url, keyPair);
-        console.log(client);
-
-        const hasDataInPkid = await client.getDoc(publicKey, 'Preferences');
-
-        if (hasDataInPkid.status == 404) {
-            console.log('Inserting dummy data in pkid as an example');
-            console.log(
-                await client.setDoc(
-                    'Preferences',
-                    JSON.stringify({ themeColor: 'dark', avatarIcon: 'test2.png' }),
-                    true
-                )
-            );
-            console.log(
-                await client.setDoc(
-                    'Wallets',
-                    JSON.stringify({
-                        walletKey: 'MLEG6FdoDKD2b4MqnkCUz2pMgBGYYpZtntHIKgQQshg=',
-                        walletName: 'monthlyWallet2',
-                    }),
-                    true
-                )
-            );
-        }
-
-        const preferencesValue = (await client.getDoc(publicKey, 'Preferences')).data;
-        const keysValue = (await client.getDoc(publicKey, 'Wallets')).data;
-
+async function addRow() {
+    // pkidData.data = [
+    //     ...pkidData.data,
+    //     // { id: pkidData.data.length, title: pkidData.setKey, value: pkidData.setValue}
+    // ]
+    console.log(await client.setDoc(pkidData.setKey, JSON.stringify(pkidData.setValue), true));
+    pkidData.setKey = "";
+    pkidData.setValue = "";
+}
+async function getRow() {
+    const value = (await client.getDoc(publicKey, pkidData.getKey));
+    console.log(pkidData.getKey)
+    console.log(value);
+    if(value.status != 404){
         pkidData.data = [
-            {
-                id: 1,
-                title: 'Prefs',
-                value: preferencesValue,
-                members: [
-                    {
-                        name: 'Dries Vincent',
-                        handle: 'driesvincent',
-                        imageUrl:
-                            'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-                    },
-                ],
-                totalMembers: 12,
-                bgColorClass: 'bg-blue-600',
-            },
-            {
-                id: 2,
-                title: 'Wallets',
-                value: keysValue,
-                members: [
-                    {
-                        name: 'Dries Vincent',
-                        handle: 'driesvincent',
-                        imageUrl:
-                            'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-                    },
-                ],
-                totalMembers: 12,
-                bgColorClass: 'bg-yellow-600',
-            },
-            // More projects...
-        ];
-    })();
+            ...pkidData.data,
+            { id: pkidData.data.length, title: pkidData.getKey, value: value.data}
+        ]
+    }
+}
+const sidebarOpen = ref(false);
 
-    // const client = new pkid(url, publicKey, privateKey)
+const profile = JSON.parse(localStorage.getItem('profile') as any).profile;
 
-    // console.log("client: ", client)
+console.log(profile);
+
+console.log('Waiting for sodium to be ready');
+
+(async () => {
+    await _sodium.ready;
+    const sodium = _sodium;
+    console.log('Sodium is ready?');
+
+    var key = sodium.randombytes_buf(sodium.crypto_shorthash_KEYBYTES);
+    console.log('KEY');
+    console.log(key);
+
+    console.log('derivedSeed: ', Uint8ArrayFromBase64Url(profile.derivedSeed));
+    // const keyPair = entropyToMnemonic(Uint8ArrayFromBase64Url(profile.derivedSeed) as Buffer);
+
+    const keyPair = sodium.crypto_sign_seed_keypair(Uint8ArrayFromBase64Url(profile.derivedSeed));
+    console.log('done with keypair?');
+    console.log('Keypair: ', keyPair.publicKey);
+    console.log('Keypair: ', keyPair.privateKey);
+
+    const url = 'https://pkid.staging.jimber.org';
+    const _publicKey = keyPair.publicKey;
+    const _privateKey = keyPair.privateKey;
+
+    publicKey = _publicKey;
+    privateKey = _privateKey;
+
+    const _client = new pkid(url, keyPair);
+    client = _client;
+    console.log(_client);
+
+ 
+
+
+
+
+    // const hasDataInPkid = await client.getDoc(publicKey, 'Preferences');
+
+    // if (hasDataInPkid.status == 404) {
+    //     console.log('Inserting dummy data in pkid as an example');
+    //     console.log(
+    //         await client.setDoc('Preferences', JSON.stringify({ themeColor: 'dark', avatarIcon: 'test2.png' }), true)
+    //     );
+    //     console.log(
+    //         await client.setDoc(
+    //             'Wallets',
+    //             JSON.stringify({
+    //                 walletKey: 'MLEG6FdoDKD2b4MqnkCUz2pMgBGYYpZtntHIKgQQshg=',
+    //                 walletName: 'monthlyWallet2',
+    //             }),
+    //             true
+    //         )
+    //     );
+    // }
+    
+    // const preferencesValue = (await client.getDoc(publicKey, 'Preferences')).data;
+    // const keysValue = (await client.getDoc(publicKey, 'Wallets')).data;
+
+    // pkidData.data = [
+    //     {
+    //         id: 1,
+    //         title: 'Prefs',
+    //         value: preferencesValue,
+    //         members: [
+    //             {
+    //                 name: 'Dries Vincent',
+    //                 handle: 'driesvincent',
+    //                 imageUrl:
+    //                     'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    //             },
+    //         ],
+    //         totalMembers: 12,
+    //         bgColorClass: 'bg-blue-600',
+    //     },
+    //     {
+    //         id: 2,
+    //         title: 'Wallets',
+    //         value: keysValue,
+    //         members: [
+    //             {
+    //                 name: 'Dries Vincent',
+    //                 handle: 'driesvincent',
+    //                 imageUrl:
+    //                     'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    //             },
+    //         ],
+    //         totalMembers: 12,
+    //         bgColorClass: 'bg-yellow-600',
+        // },
+       // // More projects...
+    // ];
+})();
+
+// const client = new pkid(url, publicKey, privateKey)
+
+// console.log("client: ", client)
 </script>
 
 <style scoped></style>
