@@ -117,8 +117,6 @@ fn is_twinserver_running() (bool, []string) {
 // Launch twinserver with configuration (ex. from weblet)
 fn launch_twinserver(config string) ? {
 	decoded_config := base64.decode_str(config)
-	println(config)
-	println(decoded_config)
 	mut twin_config := json.decode(TwinserverConfig, decoded_config) or {
 		panic('Fail to decode TwinserverConfig with error: $err')
 	}
@@ -127,7 +125,7 @@ fn launch_twinserver(config string) ? {
 	twin_config_file_name := 'twinserver_config.json'
 	os.mkdir_all(twin_config_dir_path) ?
 	os.write_file('$twin_config_dir_path/$twin_config_file_name', json.encode_pretty(twin_config)) ?
-	os.execute('npx twinserver --config $twin_config_dir_path/$twin_config_file_name')
+	os.execute('npx twinserver --config $twin_config_dir_path/$twin_config_file_name &>> /var/log/twinserver &')
 }
 
 // Edit command and redirect to twinserver to handle it
