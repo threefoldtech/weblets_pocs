@@ -381,7 +381,7 @@
                         <input type="text" v-model="pkidData.setKey" placeholder="Key" />
                         <input type="text" v-model="pkidData.setValue" placeholder="Value"/>
                         <br>
-                        <button class="float-middle bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" type="submit">Add New Key</button>
+                        <button class="float-middle bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" type="submit">Add or Update Key</button>
                     </form>
                       
                 </div>
