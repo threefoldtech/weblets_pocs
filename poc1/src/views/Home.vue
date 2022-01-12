@@ -491,7 +491,7 @@
                                             <div class="flex flex-shrink-0 -space-x-1">{{ project.value }}</div>
                                         </div>
                                     </td>
-                                    <td class="pr-6">
+                                    <!-- <td class="pr-6">
                                         <Menu as="div" class="relative flex justify-end items-center">
                                             <MenuButton
                                                 class="
@@ -639,7 +639,7 @@
                                                 </MenuItems>
                                             </transition>
                                         </Menu>
-                                    </td>
+                                    </td> -->
                                 </tr>
                             </tbody>
                         </table>
