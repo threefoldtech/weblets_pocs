@@ -36,7 +36,7 @@ export default {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: production ? 'example/dist/template.wc.js' : 'public/build/bundle.js'
+		file: production ? 'vtwin/dist/template.wc.js' : 'public/build/bundle.js'
 	},
 	plugins: [
 		svelte({
