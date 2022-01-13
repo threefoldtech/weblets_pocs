@@ -505,7 +505,6 @@
 import { ref, reactive } from 'vue';
 import router from '../router/index';
 import pkid from '@jimber/pkid';
-import { entropyToMnemonic } from 'bip39';
 import _sodium from 'libsodium-wrappers';
 import {
     Dialog,
@@ -543,9 +542,9 @@ const logout = () => {
 };
 const navigation = [{ name: 'Pkid', href: '#', icon: DatabaseIcon, current: true }];
 const teams = [];
-let client;
-let publicKey;
-let privateKey;
+let client: any;
+let publicKey: Uint8Array;
+let privateKey: Uint8Array;
 
 const pkidData = reactive({
     data: [],
@@ -555,10 +554,6 @@ const pkidData = reactive({
 });
 
 async function addRow() {
-    // pkidData.data = [
-    //     ...pkidData.data,
-    //     // { id: pkidData.data.length, title: pkidData.setKey, value: pkidData.setValue}
-    // ]
     console.log(await client.setDoc(pkidData.setKey, JSON.stringify(pkidData.setValue), true));
     pkidData.setKey = "";
     pkidData.setValue = "";
@@ -587,13 +582,11 @@ console.log('Waiting for sodium to be ready');
     const sodium = _sodium;
     console.log('Sodium is ready?');
 
-    var key = sodium.randombytes_buf(sodium.crypto_shorthash_KEYBYTES);
-    console.log('KEY');
-    console.log(key);
+    // var key = sodium.randombytes_buf(sodium.crypto_shorthash_KEYBYTES);
+    // console.log('KEY');
+    // console.log(key);
 
     console.log('derivedSeed: ', Uint8ArrayFromBase64Url(profile.derivedSeed));
-    // const keyPair = entropyToMnemonic(Uint8ArrayFromBase64Url(profile.derivedSeed) as Buffer);
-
     const keyPair = sodium.crypto_sign_seed_keypair(Uint8ArrayFromBase64Url(profile.derivedSeed));
     console.log('done with keypair?');
     console.log('Keypair: ', keyPair.publicKey);
@@ -612,9 +605,6 @@ console.log('Waiting for sodium to be ready');
 
 })();
 
-// const client = new pkid(url, publicKey, privateKey)
-
-// console.log("client: ", client)
 </script>
 
 <style scoped></style>
