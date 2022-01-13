@@ -2,14 +2,14 @@
     "name": "mark01",
     "version": "0.0.0",
     "scripts": {
-        "dev": "vite",
+        "dev": "vite --host 0.0.0.0",
         "build": "vue-tsc --noEmit && vite build",
         "serve": "vite preview",
-        "prepare": "husky install"
+        "prepare": "cd .. && husky install poc1/.husky"
     },
     "dependencies": {
         "@headlessui/vue": "^1.4.1",
-        "@heroicons/vue": "^1.0.4",
+        "@heroicons/vue": "1.0.0",
         "@jimber/pkid": "^1.0.4",
         "@tailwindcss/aspect-ratio": "^0.2.1",
         "@tailwindcss/forms": "^0.3.4",
