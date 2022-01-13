@@ -3,7 +3,9 @@
 Implements the threefold login SDK and the pkid SDK.
 
 ## About The Project
-Vue app that interacts with jimber api to store a key/value and retrieve by key
+Vue app that interacts with jimber api to store a key/value pair and retrieve by key
+
+![Screenshot from 2022-01-13 12-28-58](https://user-images.githubusercontent.com/42457449/149313211-a250f25a-4739-43e2-80b3-246c7a7b877d.png)
 
 ### Built With
 
@@ -12,10 +14,12 @@ Vue app that interacts with jimber api to store a key/value and retrieve by key
   
 <!-- GETTING STARTED -->
 ## Getting Started
-POC implements the threefold login SDK and the pkid SDK.
+this is a POC implements the threefold login SDK and the pkid SDK.
 After login there will be a variable in localStorage named profile that has user derived seed.
 from that seed we get the keypair (public, private keys)
-using the pkid lib then we use the client to set and get the values
+then with the help of the pkid lib the app allow the user to store and retrieve data from the jimper PKID.
+
+[PKID](https://github.com/threefoldtech/pkid) is a public Key Indexed Datastore. You can save plain or encrypted data in a public key index; as long as you are the owner of the secret corresponding to that public key.
 
 ### Prerequisites
 
