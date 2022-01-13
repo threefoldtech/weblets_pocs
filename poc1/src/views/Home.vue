@@ -368,7 +368,7 @@
                     <div class="flex-1 min-w-0">
                         <h1 class="text-lg font-medium leading-6 text-gray-900 sm:truncate">Pkid</h1>
                     </div>
-                    <form @submit.prevent="getRow">
+                    <form @submit.prevent="getRow" style="border-right: black solid 2px; margin-right: 10px; padding: 10px;">
 
                         <div class="flex-1 relative z-0">
                             <input type="text" v-model="pkidData.getKey" placeholder="Get this key's value"/>
