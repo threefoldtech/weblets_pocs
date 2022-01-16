@@ -7,7 +7,7 @@
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "vtwin": "cd ./vtwin && http-server --a :: -p 8888"
+    "vtwin": "cd ./vtwin && http-server --a :: -p 8882"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
