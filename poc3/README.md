@@ -1,6 +1,6 @@
 # POC3
 
-- Use NodJS server as a backend.
+- Use NodeJS server as a backend.
 - Stellar example in TS and V.
 
 > This part taken from Twin server documentation with some modifications, for [full documentation](https://github.com/threefoldtech/grid3_client_ts/blob/development/docs/server.md)
