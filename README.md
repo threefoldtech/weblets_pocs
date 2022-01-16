@@ -18,4 +18,18 @@ In this repo there are 5 pocs as following:
 
 - example to show how easy to create your weblet, [see](poc4/README.md)
 
-## POC5: Tendermint + PostgresSql) _in progress_
+## POC5: Tendermint + PostgresSql)
+
+_in progress_
+
+# Development Image
+
+- entrypoint: /init.sh
+- Dockerfile: https://github.com/threefoldtech/tf-images/blob/development/tfgrid3/ubuntu_devenv/Dockerfile
+- flist: https://hub.grid.tf/essam.3bot/mohammedessam-ubuntu_devenv-20.04.flist _`Will be changed with official one later`_.
+
+## Environment Variables
+
+- SSH_KEY
+- TWIN_ID _optional_
+- CODESERVER_PASSWORD _optional_ `default: tfdev001`
