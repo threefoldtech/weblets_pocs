@@ -1,14 +1,15 @@
-# POC2 
+# POC2
+
 - Implement a web component that send messages using RMB over https.
 - Implement v server as a backend to handle the messages, check commands and redirect allowed commands to twinserver.
 - Add helper scripts to run msgbus daemon and twinserver.
-- All these can run inside our `Development Image`.
+- All these can run inside our [Development Image](https://hub.docker.com/repository/docker/mohammedessam/ubuntu_devenv).
 
 > Assuming current directory is `poc2`.
 
 ## VWeblet
 
-- Run VWeblet to be hosted on ipv6 interface on port 8888
+- Run VWeblet to be hosted on ipv6 interface on port 8882
 
 ```sh
 cd VWeblet
@@ -25,13 +26,13 @@ cd VServer
 vserver
 ```
 
-> vserver running by default on our `Development Image`.
-
+> vserver running by default on our [Development Image](https://hub.docker.com/repository/docker/mohammedessam/ubuntu_devenv).
 
 ## Scripts
-- There are 2 helper scripts to run msgbus daemon and twinserver
 
-- msgbus daemon:
+There are 2 helper scripts to run msgbus daemon and twinserver
+
+### Msgbusd
 
 ```sh
 cd scripts
@@ -40,9 +41,9 @@ cd scripts
 ./run_msgbusd.sh -t <YOUR TWIN_ID> -n <NETWORK_ENV>
 ```
 
-> msgbus daemon running by default if you pass `TWIN_ID` as environment variable to our `Development Image`
+> msgbus daemon running by default if you pass `TWIN_ID` as environment variable to our [Development Image](https://hub.docker.com/repository/docker/mohammedessam/ubuntu_devenv)
 
-- twinserver
+### Twinserver
 
 ```sh
 cd scripts
