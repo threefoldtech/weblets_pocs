@@ -9,7 +9,7 @@
 
 ## VWeblet
 
-- Run VWeblet to be hosted on ipv6 interface on port 8888
+- Run VWeblet to be hosted on ipv6 interface on port 8882
 
 ```sh
 cd VWeblet
