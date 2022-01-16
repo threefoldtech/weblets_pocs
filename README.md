@@ -10,7 +10,7 @@ In this repo there are 5 pocs as following:
 
 - Use VServer to terminate RMB over http, [see](poc2/README.md)
 
-## POC3: NodJS as Backend Stellar Examples
+## POC3: NodeJS as Backend Stellar Examples
 
 - Use NodeJS as backend to import and get balance for stellar wallets, [see](poc3/README.md)
 
@@ -22,7 +22,7 @@ In this repo there are 5 pocs as following:
 
 _in progress_
 
-# Development Image
+## Development Image
 
 - entrypoint: /init.sh
 - Dockerfile: https://github.com/threefoldtech/tf-images/blob/development/tfgrid3/ubuntu_devenv/Dockerfile
@@ -33,3 +33,5 @@ _in progress_
 - SSH_KEY
 - TWIN_ID _optional_
 - CODESERVER_PASSWORD _optional_ `default: tfdev001`
+
+> These environment variables should be updated in the [terraform file](./terraform/main.tf) before the deployment
