@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "ts-rmb-redis-client": "^0.0.3"
+  },
+  "devDependencies": {
+    "ts-node": "^10.4.0"
+  }
+}
