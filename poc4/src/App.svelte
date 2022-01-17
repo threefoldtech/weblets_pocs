@@ -2,4 +2,4 @@
   import Template from "./components/Template.wc.svelte";
 </script>
 
-<Template name={"Rabie"} />
+<Template name={"Threefold"} />

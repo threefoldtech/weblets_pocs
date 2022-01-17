@@ -8,7 +8,8 @@
   hello, <span>{name}</span>.
 </p>
 
-<style lang="scss" scoped>
+<style lang="scss">
+  @import url("/global.css");
   p {
     padding: 15px;
 

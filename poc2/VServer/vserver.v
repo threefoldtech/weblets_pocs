@@ -125,7 +125,7 @@ fn launch_twinserver(config string) ? {
 	twin_config_file_name := 'twinserver_config.json'
 	os.mkdir_all(twin_config_dir_path) ?
 	os.write_file('$twin_config_dir_path/$twin_config_file_name', json.encode_pretty(twin_config)) ?
-	os.execute('npx twinserver --config $twin_config_dir_path/$twin_config_file_name &>> /var/log/twinserver &')
+	os.execute('twinserver --config $twin_config_dir_path/$twin_config_file_name &>> /var/log/twinserver &')
 }
 
 // Edit command and redirect to twinserver to handle it
