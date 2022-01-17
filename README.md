@@ -31,8 +31,8 @@ _in progress_
 ### Environment Variables
 
 - SSH_KEY
-- TWIN\*ID _optional_
-- CODESERVER\*PASSWORD _optional_ `default: tfdev001`
+- TWIN*ID \_optional*
+- CODESERVER*PASSWORD \_optional* `default: tfdev001`
 
 > These environment variables should be updated in the [terraform file](./terraform/main.tf) before the deployment
 
