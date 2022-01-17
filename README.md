@@ -31,8 +31,8 @@ _in progress_
 ### Environment Variables
 
 - SSH_KEY
-- TWIN*ID \_optional*
-- CODESERVER*PASSWORD \_optional* `default: tfdev001`
+- TWIN_ID *optional*
+- CODESERVER_PASSWORD *optional* `default: tfdev001`
 
 > These environment variables should be updated in the [terraform file](./terraform/main.tf) before the deployment
 
@@ -41,4 +41,4 @@ _in progress_
 - 8881 : poc1 weblet
 - 8882 : poc2 weblet
 - 8884 : poc4 weblet
-- 8886 : code-server _also code-server works on 8080 but on localhost_
+- 8886 : code-server *also code-server works on 8080 but on localhost*
