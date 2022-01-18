@@ -1,5 +1,4 @@
 #!/bin/bash
-mkdir -p /tmp/vserver
 
 while getopts t:n: flag
 do
@@ -18,7 +17,7 @@ then
 else
     if [[ -z $network ]]; then
         echo "Run msgbusd with twin $twin and on devnet"
-        msgbusd --twin $twin &>> /tmp/msgbusd &
+        msgbusd --twin $twin &>> /var/log/msgbusd &
     else
         case "${network}" in
             dev) sub="wss://tfchain.dev.grid.tf/ws";;
@@ -26,6 +25,6 @@ else
             main) sub="wss://tfchain.grid.tf/ws";;
         esac
         echo "Run msgbusd with twin $twin and on ${network}net"
-        msgbusd --twin $twin --substrate $sub &>> /tmp/msgbusd &
+        msgbusd --twin $twin --substrate $sub &>> /var/log/msgbusd &
     fi
 fi

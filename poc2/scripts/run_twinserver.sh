@@ -25,5 +25,5 @@ else
         \"storeSecret\": \"${storeSecret}\",
         \"keypairType\": \"sr25519\"
     }" > /tmp/vserver/twinserver_config.json
-    npx twinserver --config /tmp/vserver/twinserver_config.json &>> /var/log/twinserver &
+    twinserver --config /tmp/vserver/twinserver_config.json &>> /var/log/twinserver &
 fi
